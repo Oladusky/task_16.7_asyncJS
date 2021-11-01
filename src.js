@@ -3,7 +3,7 @@ function pageLoaded() {
     const input_limit = document.querySelector("#input_limit");
     const btn = document.querySelector("#button");
     const output = document.querySelector("#output");
-    
+
     function sendRequest() {
         if (validate()) {
             fetch(`https://picsum.photos/v2/list?page=${input_page.value}&limit=${input_limit.value}`)
@@ -17,10 +17,11 @@ function pageLoaded() {
     }
 
     function formatOutput(data) {
+        
         let output = '';
 
         data.forEach(item => {
-        const cardBlock = `
+            const cardBlock = `
         <div class="card">
         <p>id = ${item.id}</p>
         <p>Автор - ${item.author}</p>
@@ -30,7 +31,9 @@ function pageLoaded() {
         <p>Ссылка для скачивания: ${item.download_url}</p>
         <img src = '${item.download_url}'>
         </div>`;
-        output = output + cardBlock;
+            output = output + cardBlock;
+            localStorage.setItem('storageData',JSON.stringify(output));
+
         })
         return output;
     }
@@ -53,17 +56,19 @@ function pageLoaded() {
         }
         return validated;
     }
-   
+
     btn.addEventListener("click", sendRequest);
-
 }
-    // function localStorage () {
-    //     localStorage.setItem('myKey', JSON.stringify(output));
-    //     alert( localStorage.getItem('myKey'));
-    //     const myKey = localStorage.getItem('myKey');
-    //     let storage = JSON.parse(myKey);
-    //     writeOutput(storage);
-    // }
-    
-
 document.addEventListener("DOMContentLoaded", pageLoaded);
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    let info = JSON.parse(localStorage.getItem('storageData'));
+    if (info) {
+        // Если данные в localStorage есть - просто выводим их
+        output.innerHTML = info;
+    } else {
+        pageLoaded();
+            localStorage.setItem('myJSON', JSON.stringify(output));
+        }
+})
