@@ -1,5 +1,5 @@
-const xmlString = `
-<list>
+const parser = new DOMParser();
+var stringContainingXMLSource = `<list>
 <student>
   <name lang="en">
     <first>Ivan</first>
@@ -17,21 +17,24 @@ const xmlString = `
   <prof>driver</prof>
 </student>
 </list>`;
-
-const xmlDOM = parser.parseFromString(xmlString, "text/xml");
-
-const xmlName = xmlDOM.querySelector("list");
-const firstName = bookNode.querySelector("first");
-const secondName = bookNode.querySelector("second");
-const age = bookNode.querySelector("age");
-const profession = bookNode.querySelector("prof");
-const language = nameNode.getAttribute("lang");
-
+const doc = parser.parseFromString(stringContainingXMLSource, "text/xml");
+const student = doc.querySelectorAll('student');
 const result = {
-    category: categoryAttr,
-    name: firstName.textContent + secondName.textContent,
-    age: age.textContent,
-    prof: profession.textContent,
-    lang: language,
-  };
-  console.log('result', result);
+    list: [
+
+    ]
+};
+student.forEach(element => {
+    const firstName = element.querySelector('name first').textContent;
+    const secondName = element.querySelector('name second').textContent;
+    const ageDate = element.querySelector('age');
+    const profDate = element.querySelector('prof');
+    const langDate = element.querySelector('name').getAttribute('lang');
+    result.list.push( { name: firstName + ' ' + secondName,
+                       age: ageDate,
+                       prof: profDate, 
+                       lang: langDate });
+    return result;
+
+});
+console.log(result);
