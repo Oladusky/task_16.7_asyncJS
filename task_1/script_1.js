@@ -20,21 +20,23 @@ var stringContainingXMLSource = `<list>
 const doc = parser.parseFromString(stringContainingXMLSource, "text/xml");
 const student = doc.querySelectorAll('student');
 const result = {
-    list: [
+  list: [
 
-    ]
+  ]
 };
 student.forEach(element => {
-    const firstName = element.querySelector('name first').textContent;
-    const secondName = element.querySelector('name second').textContent;
-    const ageDate = element.querySelector('age');
-    const profDate = element.querySelector('prof');
-    const langDate = element.querySelector('name').getAttribute('lang');
-    result.list.push( { name: firstName + ' ' + secondName,
-                       age: ageDate,
-                       prof: profDate, 
-                       lang: langDate });
-    return result;
+  const firstName = element.querySelector('name first').textContent;
+  const secondName = element.querySelector('name second').textContent;
+  const ageDate = element.querySelector('age');
+  const profDate = element.querySelector('prof');
+  const langDate = element.querySelector('name').getAttribute('lang');
+  result.list.push({
+    name: firstName + ' ' + secondName,
+    age: ageDate,
+    prof: profDate,
+    lang: langDate
+  });
+  return result;
 
 });
 console.log(result);
